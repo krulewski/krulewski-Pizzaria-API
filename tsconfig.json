@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    
+    // Define para qual versão do JavaScript o código será convertido
+    // ES2020 = moderno, suporta async/await, etc.
+    "target": "ES2020",
+
+    // Define o sistema de módulos usado pelo Node.js
+    // commonjs = padrão do Node (require / module.exports)
+    "module": "commonjs",
+
+    // Pasta onde fica seu código fonte
+    // Ou seja: você escreve código dentro da pasta "src"
+    "rootDir": "./src",
+
+    // Pasta onde o código compilado será gerado
+    // Ex: TS → vira JS dentro da pasta "dist"
+    "outDir": "./dist",
+
+    // Ativa checagens mais rigorosas (muito importante)
+    // Evita erros comuns (tipo variável undefined, tipos errados, etc)
+    "strict": true,
+
+    // Permite importar bibliotecas como o Express de forma mais simples
+    // Sem isso: daria erro no import
+    "esModuleInterop": true
+  }
+}
