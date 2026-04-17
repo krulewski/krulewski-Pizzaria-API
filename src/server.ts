@@ -1,28 +1,33 @@
-
 import express from 'express'
 import { connectDatabase } from './database/connection'
 import orderRoutes from './routes/orderRoutes'
 import dotenv from 'dotenv'
+import cors from 'cors'
+
 dotenv.config()
 
-// cria a aplicação (servidor)
+// cria o servidor
 const app = express()
 
-app.use(express.json())
-app.use(orderRoutes)
+// 👇 PRIMEIRO: middlewares
+app.use(cors({
+  origin: 'http://localhost:5173'
+}))
 
-// permite que a API receba JSON no body das requisições
 app.use(express.json())
 
-// rota GET na raiz "/"
+// 👇 DEPOIS: rotas
+app.use('/orders', orderRoutes)
+
+// rota teste
 app.get('/', (req, res) => {
-  // retorna um JSON como resposta
   return res.json({ message: 'API da Pizzaria rodando 🍕' })
 })
 
+// conecta no banco
 connectDatabase()
-// inicia o servidor na porta 3000
+
+// inicia servidor
 app.listen(3000, () => {
-  // mostra mensagem no terminal quando subir
   console.log('Servidor rodando em http://localhost:3000')
 })
