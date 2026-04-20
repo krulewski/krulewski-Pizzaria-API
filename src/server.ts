@@ -16,7 +16,7 @@ app.use(cors({
 app.use(express.json())
 
 // rotas
-app.use(orderRoutes)
+app.use('/orders', orderRoutes)
 
 // rota teste
 app.get('/', (req, res) => {
