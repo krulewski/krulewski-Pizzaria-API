@@ -8,48 +8,47 @@ type Order = {
   status: string
 }
 
+// 🔥 API ONLINE
+const API_URL = 'https://krulewski-pizzaria-api.onrender.com'
+
 function App() {
   const [orders, setOrders] = useState<Order[]>([])
   const [customerName, setCustomerName] = useState('')
   const [items, setItems] = useState('')
 
-  // buscar pedidos
   useEffect(() => {
     fetchOrders()
   }, [])
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:3000/orders')
+      const response = await axios.get(`${API_URL}/orders`)
       setOrders(response.data)
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error)
     }
   }
 
-  // criar pedido
   const createOrder = async () => {
     if (!customerName || !items) return
 
     try {
-      await axios.post('http://127.0.0.1:3000/orders', {
+      await axios.post(`${API_URL}/orders`, {
         customerName,
         items: items.split(',')
       })
 
       setCustomerName('')
       setItems('')
-
       fetchOrders()
     } catch (error) {
       console.error('Erro ao criar pedido:', error)
     }
   }
 
-  // atualizar status
   const updateStatus = async (id: string, status: string) => {
     try {
-      await axios.put(`http://127.0.0.1:3000/orders/${id}`, {
+      await axios.put(`${API_URL}/orders/${id}`, {
         status
       })
 
@@ -63,7 +62,6 @@ function App() {
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <h1>🍕 Sistema de Pedidos</h1>
 
-      {/* FORMULÁRIO */}
       <div style={{ marginBottom: '20px' }}>
         <h2>Novo Pedido</h2>
 
@@ -72,12 +70,6 @@ function App() {
           placeholder="Nome do cliente"
           value={customerName}
           onChange={e => setCustomerName(e.target.value)}
-          style={{
-            display: 'block',
-            marginBottom: '10px',
-            width: '100%',
-            padding: '8px'
-          }}
         />
 
         <input
@@ -85,12 +77,6 @@ function App() {
           placeholder="Itens (ex: Pizza, Coca)"
           value={items}
           onChange={e => setItems(e.target.value)}
-          style={{
-            display: 'block',
-            marginBottom: '10px',
-            width: '100%',
-            padding: '8px'
-          }}
         />
 
         <button onClick={createOrder}>
@@ -102,18 +88,8 @@ function App() {
       <p>Total: {orders.length}</p>
 
       {orders.map(order => (
-        <div
-          key={order._id}
-          style={{
-            border: '1px solid #ddd',
-            borderRadius: '10px',
-            padding: '15px',
-            marginBottom: '15px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-          }}
-        >
+        <div key={order._id}>
           <p><strong>Cliente:</strong> {order.customerName}</p>
-
           <p><strong>Itens:</strong> {order.items.join(', ')}</p>
 
           <p>
@@ -123,20 +99,13 @@ function App() {
             {order.status === 'ENTREGUE' && '🟢 ENTREGUE'}
           </p>
 
-          <div style={{ marginTop: '10px' }}>
-            <button
-              onClick={() => updateStatus(order._id, 'EM_PREPARO')}
-              style={{ marginRight: '10px' }}
-            >
-              🔵 Preparar
-            </button>
+          <button onClick={() => updateStatus(order._id, 'EM_PREPARO')}>
+            🔵 Preparar
+          </button>
 
-            <button
-              onClick={() => updateStatus(order._id, 'ENTREGUE')}
-            >
-              🟢 Entregar
-            </button>
-          </div>
+          <button onClick={() => updateStatus(order._id, 'ENTREGUE')}>
+            🟢 Entregar
+          </button>
         </div>
       ))}
     </div>
