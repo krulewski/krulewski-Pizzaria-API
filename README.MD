@@ -7,10 +7,11 @@ API REST desenvolvida para gerenciamento de pedidos de uma pizzaria.
 ## 🚀 Tecnologias utilizadas
 
 * Node.js
-* TypeScript
 * Express
 * MongoDB
-* Mongoose
+* React
+* TypeScript
+* Tailwind CSS
 
 ---
 
