@@ -8,7 +8,6 @@ type Order = {
   status: string
 }
 
-// 🔥 API ONLINE
 const API_URL = 'https://krulewski-pizzaria-api.onrender.com'
 
 function App() {
@@ -48,13 +47,20 @@ function App() {
 
   const updateStatus = async (id: string, status: string) => {
     try {
-      await axios.put(`${API_URL}/orders/${id}`, {
-        status
-      })
-
+      await axios.put(`${API_URL}/orders/${id}`, { status })
       fetchOrders()
     } catch (error) {
       console.error('Erro ao atualizar:', error)
+    }
+  }
+
+  // 🔥 DELETE
+  const deleteOrder = async (id: string) => {
+    try {
+      await axios.delete(`${API_URL}/orders/${id}`)
+      fetchOrders()
+    } catch (error) {
+      console.error('Erro ao deletar:', error)
     }
   }
 
@@ -62,9 +68,7 @@ function App() {
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <h1>🍕 Sistema de Pedidos</h1>
 
-      <div style={{ marginBottom: '20px' }}>
-        <h2>Novo Pedido</h2>
-
+      <div>
         <input
           type="text"
           placeholder="Nome do cliente"
@@ -74,26 +78,22 @@ function App() {
 
         <input
           type="text"
-          placeholder="Itens (ex: Pizza, Coca)"
+          placeholder="Itens (Pizza, Coca)"
           value={items}
           onChange={e => setItems(e.target.value)}
         />
 
-        <button onClick={createOrder}>
-          ➕ Criar Pedido
-        </button>
+        <button onClick={createOrder}>➕ Criar</button>
       </div>
 
-      <h2>Pedidos</h2>
-      <p>Total: {orders.length}</p>
+      <h2>Pedidos ({orders.length})</h2>
 
       {orders.map(order => (
-        <div key={order._id}>
-          <p><strong>Cliente:</strong> {order.customerName}</p>
-          <p><strong>Itens:</strong> {order.items.join(', ')}</p>
+        <div key={order._id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
+          <p><strong>{order.customerName}</strong></p>
+          <p>{order.items.join(', ')}</p>
 
           <p>
-            <strong>Status:</strong>{' '}
             {order.status === 'PENDENTE' && '🟡 PENDENTE'}
             {order.status === 'EM_PREPARO' && '🔵 EM PREPARO'}
             {order.status === 'ENTREGUE' && '🟢 ENTREGUE'}
@@ -105,6 +105,13 @@ function App() {
 
           <button onClick={() => updateStatus(order._id, 'ENTREGUE')}>
             🟢 Entregar
+          </button>
+
+          <button
+            onClick={() => deleteOrder(order._id)}
+            style={{ color: 'red' }}
+          >
+            ❌ Deletar
           </button>
         </div>
       ))}
