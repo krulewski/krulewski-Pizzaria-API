@@ -1,84 +1,97 @@
-# 🍕 Pizzaria API
+# 🍕 Sistema de Pedidos - Pizzaria
 
-API REST desenvolvida para gerenciamento de pedidos de uma pizzaria.
+Aplicação fullstack para gerenciamento de pedidos de uma pizzaria, permitindo criar, listar, atualizar status e deletar pedidos em tempo real.
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 🚀 Acesse o projeto
 
-* Node.js
-* Express
-* MongoDB
+🔗 Frontend: https://krulewski-pizzaria-api.vercel.app
+🔗 Backend (API): https://krulewski-pizzaria-api.onrender.com
+
+---
+
+## ⚙️ Funcionalidades
+
+* ✅ Criar pedidos
+* 📋 Listar pedidos
+* 🔄 Atualizar status (PENDENTE, EM PREPARO, ENTREGUE)
+* ❌ Deletar pedidos
+* 🌐 Integração completa com API
+
+---
+
+## 🧪 Tecnologias utilizadas
+
+### Frontend
+
 * React
 * TypeScript
 * Tailwind CSS
+* Axios
+
+### Backend
+
+* Node.js
+* Express
+* TypeScript
+* MongoDB (Mongoose)
 
 ---
 
-## 📦 Funcionalidades
+## 🧠 Aprendizados
 
-* Criar pedidos
-* Listar pedidos
-* Atualizar status do pedido
+Neste projeto, pratiquei:
 
----
-
-## 📡 Rotas da API
-
-### ➤ Criar pedido
-
-POST /orders
-
-Exemplo:
-{
-"customerName": "Vinicius",
-"items": ["Pizza Calabresa"]
-}
+* Construção de API REST
+* Integração frontend + backend
+* Consumo de API com Axios
+* Manipulação de estado no React
+* Deploy em produção (Vercel + Render)
+* Uso de banco de dados na nuvem (MongoDB Atlas)
 
 ---
 
-### ➤ Listar pedidos
+## 📦 Como rodar o projeto localmente
 
-GET /orders
-
----
-
-### ➤ Atualizar status
-
-PUT /orders/:id
-
-Exemplo:
-{
-"status": "ENTREGUE"
-}
-
----
-
-## ▶️ Como rodar o projeto
+### 🔧 Backend
 
 ```bash
+cd pizzaria-api
+npm install
+npm run dev
+```
+
+Crie um arquivo `.env`:
+
+```env
+MONGO_URL=sua_string_do_mongodb
+```
+
+---
+
+### 💻 Frontend
+
+```bash
+cd pizzaria-web
 npm install
 npm run dev
 ```
 
 ---
 
-## ⚙️ Configuração
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```
-MONGO_URL=sua_string_do_mongodb
-```
-
----
-
 ## 📌 Status do projeto
 
-🚧 Em desenvolvimento
+🚧 Em evolução — melhorias visuais e novas funcionalidades serão adicionadas.
 
 ---
 
 ## 👨‍💻 Autor
 
-Vinicius
+Desenvolvido por **Vinicius Krulewski**
+
+---
+
+## ⭐ Se curtir
+
+Deixe uma estrela no repositório ⭐
