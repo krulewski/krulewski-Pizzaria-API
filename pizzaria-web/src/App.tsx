@@ -21,8 +21,8 @@ function App() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get(`${API_URL}/orders`)
-      setOrders(response.data)
+      const res = await axios.get(`${API_URL}/orders`)
+      setOrders(res.data)
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error)
     }
@@ -54,7 +54,6 @@ function App() {
     }
   }
 
-  // 🔥 DELETE
   const deleteOrder = async (id: string) => {
     try {
       await axios.delete(`${API_URL}/orders/${id}`)
@@ -65,56 +64,105 @@ function App() {
   }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
-      <h1>🍕 Sistema de Pedidos</h1>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-2xl mx-auto">
 
-      <div>
-        <input
-          type="text"
-          placeholder="Nome do cliente"
-          value={customerName}
-          onChange={e => setCustomerName(e.target.value)}
-        />
+        <h1 className="text-3xl font-bold text-center mb-6">
+          🍕 Sistema de Pedidos
+        </h1>
 
-        <input
-          type="text"
-          placeholder="Itens (Pizza, Coca)"
-          value={items}
-          onChange={e => setItems(e.target.value)}
-        />
+        {/* FORM */}
+        <div className="bg-white p-4 rounded-xl shadow mb-6">
+          <h2 className="text-xl font-semibold mb-3">Novo Pedido</h2>
 
-        <button onClick={createOrder}>➕ Criar</button>
-      </div>
+          <input
+            className="w-full border p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            placeholder="Nome do cliente"
+            value={customerName}
+            onChange={e => setCustomerName(e.target.value)}
+          />
 
-      <h2>Pedidos ({orders.length})</h2>
-
-      {orders.map(order => (
-        <div key={order._id} style={{ border: '1px solid #ccc', margin: '10px', padding: '10px' }}>
-          <p><strong>{order.customerName}</strong></p>
-          <p>{order.items.join(', ')}</p>
-
-          <p>
-            {order.status === 'PENDENTE' && '🟡 PENDENTE'}
-            {order.status === 'EM_PREPARO' && '🔵 EM PREPARO'}
-            {order.status === 'ENTREGUE' && '🟢 ENTREGUE'}
-          </p>
-
-          <button onClick={() => updateStatus(order._id, 'EM_PREPARO')}>
-            🔵 Preparar
-          </button>
-
-          <button onClick={() => updateStatus(order._id, 'ENTREGUE')}>
-            🟢 Entregar
-          </button>
+          <input
+            className="w-full border p-2 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+            placeholder="Itens (Pizza, Coca)"
+            value={items}
+            onChange={e => setItems(e.target.value)}
+          />
 
           <button
-            onClick={() => deleteOrder(order._id)}
-            style={{ color: 'red' }}
+            onClick={createOrder}
+            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition"
           >
-            ❌ Deletar
+            ➕ Criar Pedido
           </button>
         </div>
-      ))}
+
+        {/* LISTA */}
+        <h2 className="text-xl font-semibold mb-3">
+          Pedidos ({orders.length})
+        </h2>
+
+        <div className="space-y-4">
+          {orders.map(order => (
+            <div
+              key={order._id}
+              className="bg-white p-4 rounded-xl shadow hover:shadow-lg transition"
+            >
+              <p className="font-bold text-lg">{order.customerName}</p>
+
+              <p className="text-gray-600">
+                {order.items.join(', ')}
+              </p>
+
+              {/* STATUS */}
+              <p className="mt-2">
+                {order.status === 'PENDENTE' && (
+                  <span className="text-yellow-600 font-semibold">
+                    🟡 PENDENTE
+                  </span>
+                )}
+
+                {order.status === 'EM_PREPARO' && (
+                  <span className="text-blue-600 font-semibold">
+                    🔵 EM PREPARO
+                  </span>
+                )}
+
+                {order.status === 'ENTREGUE' && (
+                  <span className="text-green-600 font-semibold">
+                    🟢 ENTREGUE
+                  </span>
+                )}
+              </p>
+
+              {/* BOTÕES */}
+              <div className="mt-3 flex gap-2 flex-wrap">
+                <button
+                  onClick={() => updateStatus(order._id, 'EM_PREPARO')}
+                  className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                >
+                  Preparar
+                </button>
+
+                <button
+                  onClick={() => updateStatus(order._id, 'ENTREGUE')}
+                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition"
+                >
+                  Entregar
+                </button>
+
+                <button
+                  onClick={() => deleteOrder(order._id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                >
+                  Deletar
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
     </div>
   )
 }
